@@ -1,5 +1,5 @@
 const { prisma } = require("./index");
-
+const jwt = require("jsonwebtoken");
 
 const getAllUsers = async() => {
 
@@ -8,11 +8,16 @@ const getAllUsers = async() => {
 
 }
 
-const createNewUser = async() => {
+const createNewUser = async(username,password) => {
 
-  const works = "this works yay";
+  const newUser = await prisma.users.create({
+    data:{
+      username,
+      password
+    }
+  })
 
-  return works;
+  return newUser;
 
 }
 
