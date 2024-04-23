@@ -21,11 +21,25 @@ const getOnePost = async(postid) => {
 
 }
 
+const createPost = async(title, content, creatorId) => {
+  const post = await prisma.posts.create({
+    data:{
+      title,
+      content,
+      creatorId
+    }
+  });
+
+  return post;
+
+}
+
 
 
 
 
 module.exports = {
   getAllPosts,
-  getOnePost
+  getOnePost,
+  createPost
 }
