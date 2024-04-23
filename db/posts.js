@@ -34,6 +34,22 @@ const createPost = async(title, content, creatorId) => {
 
 }
 
+const updatePost = async(passedId, title, content) => {
+passedId = passedId*1;
+  const updatedPost = await prisma.posts.update({
+    where: {
+      id: passedId
+    },
+    data: {
+      title,
+      content
+    },
+  })
+
+  return updatedPost;
+
+}
+
 
 
 
@@ -41,5 +57,6 @@ const createPost = async(title, content, creatorId) => {
 module.exports = {
   getAllPosts,
   getOnePost,
-  createPost
+  createPost,
+  updatePost
 }
