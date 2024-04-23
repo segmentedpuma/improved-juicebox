@@ -1,15 +1,15 @@
 const { prisma } = require("./index");
 
-const getAllPosts = async() => {
+const getAllPosts = async () => {
 
-const posts = await prisma.posts.findMany();
-return posts;
+  const posts = await prisma.posts.findMany();
+  return posts;
 
 }
 
 
-const getOnePost = async(postid) => {
-  postid = postid*1;
+const getOnePost = async (postid) => {
+  postid = postid * 1;
 
   const post = await prisma.posts.findUnique({
     where: {
@@ -21,9 +21,9 @@ const getOnePost = async(postid) => {
 
 }
 
-const createPost = async(title, content, creatorId) => {
+const createPost = async (title, content, creatorId) => {
   const post = await prisma.posts.create({
-    data:{
+    data: {
       title,
       content,
       creatorId
@@ -34,8 +34,8 @@ const createPost = async(title, content, creatorId) => {
 
 }
 
-const updatePost = async(passedId, title, content) => {
-passedId = passedId*1;
+const updatePost = async (passedId, title, content) => {
+  passedId = passedId * 1;
   const updatedPost = await prisma.posts.update({
     where: {
       id: passedId
@@ -50,6 +50,17 @@ passedId = passedId*1;
 
 }
 
+const deletePost = async (passedId) => {
+  passedId = passedId * 1;
+  const deletedPost = await prisma.posts.delete({
+    where: {
+      id: passedId
+    },
+  })
+  return deletedPost;
+
+}
+
 
 
 
@@ -58,5 +69,6 @@ module.exports = {
   getAllPosts,
   getOnePost,
   createPost,
-  updatePost
+  updatePost,
+  deletePost
 }

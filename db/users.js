@@ -1,17 +1,17 @@
 const { prisma } = require("./index");
 const jwt = require("jsonwebtoken");
 
-const getAllUsers = async() => {
+const getAllUsers = async () => {
 
   const users = await prisma.users.findMany();
   return users;
 
 }
 
-const getSingleUser = async(passedUsername, passedPassword) => {
+const getSingleUser = async (passedUsername, passedPassword) => {
 
   const user = await prisma.users.findUnique({
-    where:{
+    where: {
       username: passedUsername,
       password: passedPassword
     }
@@ -21,19 +21,19 @@ const getSingleUser = async(passedUsername, passedPassword) => {
 
 }
 
-const getUserById = async(passedId) => {
+const getUserById = async (passedId) => {
   const user = await prisma.users.findUnique({
-    where:{
-     id: passedId
+    where: {
+      id: passedId
     }
   });
   return user;
 }
 
-const createNewUser = async(username,password) => {
+const createNewUser = async (username, password) => {
 
   const newUser = await prisma.users.create({
-    data:{
+    data: {
       username,
       password
     }
@@ -52,7 +52,7 @@ const createToken = (id, password) => {
       expiresIn: "3w"
     });
 
-    return token;
+  return token;
 }
 
 

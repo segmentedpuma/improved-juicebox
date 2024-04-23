@@ -1,7 +1,7 @@
 const express = require('express');
 
 
-const { getAllPosts, getOnePost, createPost, updatePost } = require("../db/posts");
+const { getAllPosts, getOnePost, createPost, updatePost, deletePost } = require("../db/posts");
 const { requireUser } = require("./utils");
 
 const postsRouter = express.Router();
@@ -56,7 +56,7 @@ postsRouter.post("/", requireUser, async (req, res, next) => {
   }
 });
 
-postsRouter.put("/:id", requireUser, async(req,res,next) => {
+postsRouter.put("/:id", requireUser, async (req, res, next) => {
 
   const id = req.params.id;
 
@@ -64,25 +64,44 @@ postsRouter.put("/:id", requireUser, async(req,res,next) => {
 
     const post = await getOnePost(id);
     const originalcreator = post.creatorId;
-    
-    if(originalcreator === req.user.id){
+
+    if (originalcreator === req.user.id) {
       const title = req.body.title;
       const content = req.body.content;
-      const updatedPost  = await updatePost(id ,title, content);
+      const updatedPost = await updatePost(id, title, content);
 
       res.send(updatedPost);
     }
-    else{
+    else {
       console.log('incorrect user');
       res.send('must be original creator to edit posts');
     }
-
-    
-
   } catch (error) {
     next(error);
   }
 
 })
+
+postsRouter.delete("/:id", requireUser, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const post = await getOnePost(id);
+    const originalcreator = post.creatorId
+    if (originalcreator === req.user.id) {
+      const deletedPost = await deletePost(id);
+      res.send(deletedPost);
+
+    }
+    else {
+      console.log("incorrect user");
+      res.send('must be original creator to delete posts');
+    }
+  } catch (error) {
+    next(error);
+  }
+
+})
+
 
 module.exports = postsRouter;

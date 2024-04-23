@@ -8,4 +8,4 @@ const requireUser = (req, res, next) => {
     res.sendStatus(401)
   }
 }
-module.exports = { requireUser} ;
+module.exports = { requireUser };
